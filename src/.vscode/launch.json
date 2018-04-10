@@ -5,10 +5,10 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": ".NET Core Launch (Backend)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build-backend",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/BackEnd/bin/Debug/netcoreapp2.0/BackEnd.dll",
             "args": [],
@@ -35,6 +35,39 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
+        },
+        {
+            "name": ".NET Core Launch (FrontEnd)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-frontend",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/FrontEnd/bin/Debug/netcoreapp2.0/FrontEnd.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/FrontEnd",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "justMyCode": false
         },
         {
             "name": ".NET Core Attach",

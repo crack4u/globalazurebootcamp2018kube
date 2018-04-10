@@ -1,0 +1,26 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "name": "shieldhr",
+      "labels": {
+        "name": "shieldhr"
+      }
+    },
+    "spec": {
+      "containers": [
+        {
+          "name": "shieldhr",
+          "image": "amolenk/shieldhrm",
+          "ports": [
+            {
+            "containerPort": 83
+            }
+          ]
+        }
+      ],
+      "nodeSelector": {
+       "beta.kubernetes.io/os": "windows"
+       }
+     }
+   }
