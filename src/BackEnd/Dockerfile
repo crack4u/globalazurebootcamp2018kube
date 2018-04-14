@@ -6,7 +6,7 @@ COPY BackEnd.csproj ./BackEnd.csproj
 RUN dotnet restore
 
 # copy everything else and build app
-COPY * ./
+COPY ./ ./
 WORKDIR /app
 RUN dotnet publish -o out -c Release /p:PublishWithAspNetCoreTargetManifest="false"
 

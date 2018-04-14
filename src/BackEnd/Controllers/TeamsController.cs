@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace BackEnd.Controllers
@@ -14,9 +15,13 @@ namespace BackEnd.Controllers
     {
         private readonly string _filePath;
 
-        public TeamsController()
+        public TeamsController(IConfiguration configuration)
         {
-            _filePath = Path.Combine(Environment.CurrentDirectory, "teams");
+            _filePath = configuration.GetValue<string>("OutputFilePath");
+            if (!Path.IsPathRooted(_filePath))
+            {
+                _filePath = Path.Combine(Environment.CurrentDirectory, _filePath);
+            }
         }
 
         [HttpGet]
