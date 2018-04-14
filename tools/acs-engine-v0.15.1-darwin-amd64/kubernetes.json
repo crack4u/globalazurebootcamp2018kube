@@ -1,0 +1,48 @@
+{
+  "apiVersion": "vlabs",
+  "properties": {
+    "orchestratorProfile": {
+      "orchestratorType": "Kubernetes",
+      "orchestratorRelease": "1.9"
+    },
+    "masterProfile": {
+      "count": 1,
+      "dnsPrefix": "<TODO>",
+      "vmSize": "Standard_D2_v2"
+    },
+    "agentPoolProfiles": [
+      {
+        "name": "windowspool2",
+        "count": 2,
+        "vmSize": "Standard_D2_v2",
+        "availabilityProfile": "AvailabilitySet",
+        "osType": "Windows",
+        "osDiskSizeGB": 60
+      },
+      {
+	      "name": "linuxpool1",
+	      "count": 2,
+	      "vmSize": "Standard_D2_v2",
+	      "availabilityProfile": "AvailabilitySet"
+      }
+    ],
+    "windowsProfile": {
+      "adminUsername": "azureuser",
+      "adminPassword": "<TODO>"
+    },
+    "linuxProfile": {
+      "adminUsername": "azureuser",
+      "ssh": {
+        "publicKeys": [
+          {
+            "keyData": "<TODO>"
+          }
+        ]
+      }
+    },
+    "servicePrincipalProfile": {
+      "clientId": "<TODO>",
+      "secret": "<TODO>"
+    }
+  }
+}
