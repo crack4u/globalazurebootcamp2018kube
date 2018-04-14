@@ -31,6 +31,7 @@ namespace FrontEnd
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton<IConfigurationRoot>(Configuration);
             services.AddSingleton<HttpClient>();
         }
 

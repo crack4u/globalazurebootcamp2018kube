@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using ShieldHrm;
 using static ShieldHrm.EmployeeServiceClient;
 
@@ -9,15 +10,21 @@ namespace FrontEnd.Controllers
     [Route("api/[controller]")]
     public class MembersController : Controller
     {
-        public MembersController()
+        private readonly IConfigurationRoot configuration;
+
+        public MembersController(IConfigurationRoot configuration)
         {
+            this.configuration = configuration;
         }
 
         // GET: api/Members
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            EmployeeServiceClient client = new EmployeeServiceClient(EndpointConfiguration.BasicHttpBinding_IEmployeeService,  "http://51.136.9.144:83/EmployeeService.svc/EmployeeService");
+            string serviceUri = configuration.GetValue<string>("ShieldHrmEndpoint");
+            EmployeeServiceClient client = new EmployeeServiceClient(
+                EndpointConfiguration.BasicHttpBinding_IEmployeeService,
+                $"{serviceUri}/EmployeeService.svc/EmployeeService");
 
             try
             {

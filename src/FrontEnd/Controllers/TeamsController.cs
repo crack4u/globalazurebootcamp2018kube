@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ShieldHrm;
 using static ShieldHrm.EmployeeServiceClient;
@@ -16,10 +17,12 @@ namespace FrontEnd.Controllers
     [Route("api/[controller]")]
     public class TeamsController : Controller
     {
+        private readonly IConfigurationRoot configuration;
         private readonly HttpClient httpClient;
 
-        public TeamsController(HttpClient httpClient)
+        public TeamsController(IConfigurationRoot configuration, HttpClient httpClient)
         {
+            this.configuration = configuration;
             this.httpClient = httpClient;
         }
 
@@ -62,6 +65,7 @@ namespace FrontEnd.Controllers
 
             using (HttpResponseMessage response = await httpClient.PutAsync(proxyUrl, putContent))
             {
+                response.EnsureSuccessStatusCode();
                 return new ContentResult()
                 {
                     StatusCode = (int)response.StatusCode,
@@ -87,7 +91,7 @@ namespace FrontEnd.Controllers
             return Ok();
         }
 
-        private static async Task<PowerGrid> CalculatePowerGridAsync(string[] members)
+        private async Task<PowerGrid> CalculatePowerGridAsync(string[] members)
         {
             int intelligence = 0;
             int strength = 0;
@@ -96,7 +100,10 @@ namespace FrontEnd.Controllers
             int energyProjection = 0;
             int fightingSkills = 0;
 
-            EmployeeServiceClient client = new EmployeeServiceClient(EndpointConfiguration.BasicHttpBinding_IEmployeeService, "http://51.136.9.144:83/EmployeeService.svc/EmployeeService");
+            string serviceUri = configuration.GetValue<string>("ShieldHrmEndpoint");
+            EmployeeServiceClient client = new EmployeeServiceClient(
+                EndpointConfiguration.BasicHttpBinding_IEmployeeService,
+                $"{serviceUri}/EmployeeService.svc/EmployeeService");
 
             try
             {
@@ -130,14 +137,15 @@ namespace FrontEnd.Controllers
             };
         }
 
-        private static string GetProxyUrl()
+        private string GetProxyUrl()
         {
-            return $"http://localhost:5001/api/Teams";
+            string backendEndpoint = configuration.GetValue<string>("BackendEndpoint");
+            return $"{backendEndpoint}api/Teams";
         }
 
-        private static string GetProxyUrl(string teamName)
+        private string GetProxyUrl(string teamName)
         {
-            return $"http://localhost:5001/api/Teams/{teamName}";
+            return $"{GetProxyUrl()}/{teamName}";
         }
     }
 
