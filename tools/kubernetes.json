@@ -24,7 +24,7 @@
         "availabilityProfile": "AvailabilitySet",
         "osType": "Windows",
         "osDiskSizeGB": 60
-      },
+      }
     ],
     "windowsProfile": {
       "adminUsername": "azureuser",
