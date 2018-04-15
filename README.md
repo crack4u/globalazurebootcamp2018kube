@@ -47,10 +47,26 @@ k8s-linuxpool1-32416269-1   Ready     agent     18h       v1.9.6
 k8s-master-32416269-0       Ready     master    18h       v1.9.6
 ```
 
+Finally, let's check if you can access the Kubernetes dashboard by running the following command:
+
+```bash
+kubectl proxy
+```
+
+And then navigating to http://localhost:8001/ui. The Kubernetes dashboard should now appear. Make sure that you keep the above command running for the remainder of the labs, since it also allows us to check if our individual services are running.
+
 ## Deploy the application
 
 The application consists of 3 main parts:
-- ShieldHRM WCF service running in IIS on Windows in a container,
-- TeamAssembler Backend ASP.NET Core WebAPI running in a Linux container,
-- TeamAssembler Frontend ASP.NET Core MVC app running in a Linux container
+- ShieldHRM WCF service running in IIS on Windows in a container ([jmezach/shieldhrm](https://hub.docker.com/r/jmezach/shieldhrm/)),
+- TeamAssembler Backend ASP.NET Core WebAPI running in a Linux container ([jmezach/team-assembler-backend](https://hub.docker.com/r/jmezach/team-assembler-backend/)),
+- TeamAssembler Frontend ASP.NET Core MVC app running in a Linux container ([jmezach/team-assembler-frontend](https://hub.docker.com/r/jmezach/team-assembler-frontend/))
 
+Let's deploy these to our Kubernetes cluster:
+
+1. Create a deployment and a service for the ShieldHRM WCF service, making sure the pods are created on the Windows nodes.
+2. Make sure the service works by navigating [here](http://localhost:8001/api/v1/namespaces/default/services/shieldhrm-service/proxy/).
+3. Next, create a deployment and a service for the backed ASP.NET Core WebAPI. This service requires a persistent volume, so make sure you create that and that you pass the path to the mounted volume through the **OutputFilePath** environment variable. Also ensure that the pods are created on the Linux nodes.
+4. Test the service by going [here]( http://localhost:8001/api/v1/namespaces/default/services/shieldhrm-service/proxy/). You should get an empty JSON array back.
+5. Finally create a deployment and service for the frontend ASP.NET Core MVC app. Pass the endpoints to the ShieldHRM and BackEnd services through the **ShieldHrmEndpoint** and **BackendEndpoint** environment variables. Also make sure that the frontends are exposed to the internet through a load balancer.
+6. Check that everything is working by going to the public IP of the load balancer created in the previous step.
