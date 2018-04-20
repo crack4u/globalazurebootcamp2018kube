@@ -11,6 +11,8 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-image: url('../img/background.png');
+    color: white;
 }
 .footer {
     position: absolute;
@@ -23,4 +25,8 @@ body {
 
 .container .text-muted {
     margin: 20px 0;
+}
+
+input {
+    color: black;
 }
