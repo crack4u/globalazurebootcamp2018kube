@@ -29,7 +29,7 @@ We can now use the cluster definition file (kubernetes.json) to generate an Azur
 ```bash
 $ ./acs-engine generate kubernetes.json
 $ az login
-$ ac account set --subscription "<SUBSCRIPTION NAME OR ID>"
+$ az account set --subscription "<SUBSCRIPTION NAME OR ID>"
 $ az group create --name "<RESOURCE_GROUP_NAME>" --location "westeurope"
 $ az group deployment create \
     --name "<DEPLOYMENT NAME>" \
